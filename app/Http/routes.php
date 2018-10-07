@@ -140,8 +140,10 @@ Route::group(['middleware' => ['sessionadmin']], function () {
 
     Route::post('hcf/addbaseline','HcfController@UpdateHcfUploadBaseLine');
 
-    Route::get('hcf/getbaseline','HcfController@GetHcfBaseLine');
+	Route::get('hcf/getbaseline','HcfController@GetHcfBaseLine');
+	
 	Route::post('/patientcapture/getrecentactivity','PatientCaptureController@GetRecentActivity');
+	
 	Route::get('user/getalluser', 'UserController@GetListUsers');
 });
 
@@ -198,7 +200,6 @@ Route::group(['middleware' => ['reportmanager']],function() {
     Route::get('hcf/uploadhistory','HcfController@GetReportUploadHistory');
 
     Route::get('report/prescriberdata','ReportController@GetProviderData');
-
 
     Route::get('report/uploadhistory','ReportController@GetUploadHistory');
 

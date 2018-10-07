@@ -68,8 +68,9 @@ class PharmacyController extends Controller
         $hcfObj = new HcfModel();
         $user = $_SESSION[Constants::SESSION_KEY_USER];
         $hcfLocationDetails = $hcfObj->GetHcfLocationDetails($request->hcf_location_id);
-        $listPharmacy = $this->pharmacyObj->GetListPharmacyNearbyHcfLocation($user->health_care_facility_id, $hcfLocationDetails->latitude, $hcfLocationDetails->longitude, $request->benefit_id, $request->sort);
-        if (!empty($listPharmacy)) {
+        $listPharmacy = $this->pharmacyObj->GetListPharmacyNearbyHcfLocation($user->health_care_facility_id, $hcfLocationDetails->latitude, $hcfLocationDetails->longitude, $request->benefit_id, $request->benefit_id1, $request->benefit_id2,$request->benefit_id3, $request->benefit_id4, $request->benefit_id5, $request->sort);
+       
+        if (!empty($listPharmacy)) {         
             foreach ($listPharmacy as $key => $value) {
                 $value->benefit = explode(',', $value->benefit);
                 for ($i = 0; $i < count($value->benefit); $i++) {

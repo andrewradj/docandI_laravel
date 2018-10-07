@@ -48,9 +48,9 @@ class PatientCaptureModel extends Model
     		->whereRaw("DATE(created_at) = '".date('Y-m-d')."'")
     		->count();
     }
-    public function GetRecentActivity() 
+    public function GetRecentActivity($location_id) 
     {
-        return DB::table('patient_capture')->select('id', 'status', 'user_id')->whereRaw("DATE(created_at) = '".date('Y-m-d')."'")->get();
+        return DB::table('patient_capture')->select('id', 'status', 'user_id')->where('health_care_facility_id',$location_id)->whereRaw("DATE(created_at) = '".date('Y-m-d')."'")->get();
  
     }
     public function GetListTotalMonthPatient($userId)

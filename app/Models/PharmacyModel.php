@@ -33,14 +33,29 @@ class PharmacyModel extends Model
             ->leftjoin('benefits', 'pharmacy_benefits.benefit_id', '=', 'benefits.id')
             ->where('health_care_facility_id', $hcfId)
             ->groupBy('contracted_pharmacy.pharmacy_id')
-            ->orderBy('contracted_pharmacy.pharmacy_id')
+            ->orderBy('contracted_pharmacy.pharmacy_id')            
             ->get();
     }
 
-    public function GetListPharmacyNearbyHcfLocation($hcfId, $latitude, $longitude, $benefitId, $sort)
+    public function GetListPharmacyNearbyHcfLocation($hcfId, $latitude, $longitude, $benefitId, $benefitId1, $benefitId2, $benefitId3, $benefitId4, $benefitId5, $sort)
     {
+        $default = 0;
         if ($benefitId != 0) {
-            $sql_filter = "WHERE contracted_pharmacy.health_care_facility_id = $hcfId AND pharmacy.id IN (SELECT pharmacy_id FROM pharmacy_benefits WHERE benefit_id = $benefitId)";
+            $sql_filter = "WHERE contracted_pharmacy.health_care_facility_id = $hcfId AND pharmacy.id IN (SELECT pharmacy_id FROM pharmacy_benefits WHERE benefit_id <> $default)";
+
+            if ($benefitId1 == 1){
+                 $sql_filter  =  $sql_filter."  AND pharmacy.id IN (SELECT pharmacy_id FROM pharmacy_benefits WHERE benefit_id = $benefitId1)";}
+            if ($benefitId2 == 2){
+                 $sql_filter  =  $sql_filter."  AND pharmacy.id IN (SELECT pharmacy_id FROM pharmacy_benefits WHERE benefit_id = $benefitId2)";}
+            if ($benefitId3 == 3){
+                 $sql_filter  =  $sql_filter."  AND pharmacy.id IN (SELECT pharmacy_id FROM pharmacy_benefits WHERE benefit_id = $benefitId3)";}
+            if ($benefitId4 == 4){
+                $sql_filter  =  $sql_filter."  AND pharmacy.id IN (SELECT pharmacy_id FROM pharmacy_benefits WHERE benefit_id = $benefitId4)";}
+            if ($benefitId5 == 5){
+                $sql_filter  =  $sql_filter."  AND pharmacy.id IN (SELECT pharmacy_id FROM pharmacy_benefits WHERE benefit_id = $benefitId5)";}
+       
+   
+
         } else {
             $sql_filter = "WHERE contracted_pharmacy.health_care_facility_id = $hcfId";
         }

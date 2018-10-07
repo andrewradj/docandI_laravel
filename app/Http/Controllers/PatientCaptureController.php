@@ -142,7 +142,7 @@ class PatientCaptureController extends Controller
             $offsetTime = (string)$request->time_zone." hours";
             $date_end = strtotime(date("Y-m-d", strtotime($date_end)) . " +1 day");
             $date_end = strftime("%Y-%m-%d",$date_end);
-            $location_id = $request->location_id;
+            $location_id = $request->location_id;      
             $patientsCaptureSumary = $this->patientCaptureObj->PatientsCaptureSumary($date_start,$date_end,$location_id,$user->health_care_facility_id);
             if(!empty($patientsCaptureSumary)) {
                 $patientsCaptureSumary = $patientsCaptureSumary[0];
@@ -188,19 +188,24 @@ class PatientCaptureController extends Controller
 public function GetRecentActivity(Request $request)
     {
         $responseData = new Response;
-        $user = $_SESSION[Constants::SESSION_KEY_USER];
-
-        if (!isset($request->date_end)) {
+        if (!isset($request->date_end) || !isset($request->location_id)) {
             $responseData->Status = Constants::RESPONSE_STATUS_ERROR;
             $responseData->Message = Constants::RESPONSE_MESSAGE_INVALID_INPUT;
         } else {
+            $location_id = $request->location_id;
+            $allactivity = $this->patientCaptureObj->GetRecentActivity( $location_id);
+            if(!empty($allactivity)){
+                // $userObj = new UserModel();
+                // for($i=0; $i<count($allactivity); $i++) {
+                //     $userDetails = $userObj->GetUserDetails($allactivity[$i]->$user->id);
 
-            $allactivity = $this->patientCaptureObj->GetRecentActivity();
-
-            if (!empty($allactivity)) {
+                //     // $allactivity->$full_name = $userDetails->$full_name;
+                //     // $allactivity->$avatar  = $userDetails->$avatar;
+                // }
                 $responseData->Data = $allactivity;
                 $responseData->Status = Constants::RESPONSE_STATUS_SUCCESS;
-            } else {
+            }
+             else {
                 $responseData->Data = array();
                 $responseData->Status = Constants::RESPONSE_STATUS_ERROR;
             }
